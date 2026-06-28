@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: smartplan
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    region: frankfurt
+    healthCheckPath: /
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_HOST
+        fromDatabase:
+          name: smartplan-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: smartplan-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: smartplan-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: smartplan-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: smartplan-db
+          property: password
+
+databases:
+  - name: smartplan-db
+    plan: free
+    region: frankfurt
+    databaseName: smartplan
+    user: smartplan
